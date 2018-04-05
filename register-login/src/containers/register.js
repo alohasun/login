@@ -27,21 +27,56 @@ class registerForm extends Component {
         });  
     }
     render(){
+        console.log(this.props)
         return(
-            <form onSubmit={this.onFormSubmit}>
-                <input type="email" value={this.state.email} placeholder="Email" onChange={event=>this.setState({email:event.target.value})}/><br/>
-                <input type="text"  value={this.state.fullName} placeholder="Full name" onChange={event=>this.setState({fullName:event.target.value})}/><br/>
-                <input type="text"  value={this.state.companyName} placeholder="Company name" onChange={event=>this.setState({companyName:event.target.value})}/><br/>
-                <input type="text" value={this.state.passWord} placeholder="Password" onChange={event=>this.setState({passWord:event.target.value})}/><br/>
-                <input type="text" value={this.state.cPassWord} placeholder="Comfirm Password" onChange={event=>this.setState({cPassWord:event.target.value})}/><br/>
-                <button type="submit">Register</button>
-            </form>
+            <div>
+                <form onSubmit={this.onFormSubmit}>
+                    <input 
+                        type="email" 
+                        value={this.state.email} 
+                        placeholder="Email" 
+                        onChange={event=>this.setState({email:event.target.value})}
+                    /><br/>
+                    <input 
+                        type="text"  
+                        value={this.state.fullName} 
+                        placeholder="Full name" 
+                        onChange={event=>this.setState({fullName:event.target.value})}
+                    /><br/>
+                    <input 
+                        type="text"  
+                        value={this.state.companyName} 
+                        placeholder="Company name" 
+                        onChange={event=>this.setState({companyName:event.target.value})}
+                    /><br/>
+                    <input 
+                        type="text"  
+                        value={this.state.passWord} 
+                        placeholder="Password" 
+                        onChange={event=>this.setState({passWord:event.target.value})}
+                    /><br/>
+                    <input 
+                        type="text"  
+                        value={this.state.cPassWord} 
+                        placeholder="Comfirm Password" 
+                        onChange={event=>this.setState({cPassWord:event.target.value})}
+                    /><br/>
+                    <button type="submit">Register</button>
+                </form>
+                {this.props.isPending ? <p>Pending</p> : ""}
+                <p>{this.props.message}</p>
+            </div>
         )
     }
 }
-
+function mapStateToProps(state){
+    return {
+        isPending:state.isPending,
+        message:state.message
+    }
+}
 function mapDispatchToProps(dispatch){
-    return bindActionCreators({inputData: inputData}, dispatch);
+    return bindActionCreators({inputData}, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(registerForm);
+export default connect(mapStateToProps, mapDispatchToProps)(registerForm);

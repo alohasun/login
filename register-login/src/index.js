@@ -4,12 +4,17 @@ import './index.css';
 import App from './components/App';
 import rootReducer from './reducers';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware  } from 'redux';
+import ReduxThunk from 'redux-thunk';
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(rootReducer);
+const initState = { 
+	isPending: false,
+	message:''
+	}
+const storeWithMiddleware = (createStore(rootReducer,initState, applyMiddleware(ReduxThunk)));
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={storeWithMiddleware}>
         <App />
     </Provider>, document.getElementById('root')
 );

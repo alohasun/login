@@ -3,24 +3,41 @@ function testRegister(data){
 		if(data.passWord === data.cPassWord){
 			setTimeout(function(){
 				resolve(data);
-				console.log("success");
 			},3000);		
 		}else{
 			setTimeout(function(){
 				reject(data);
-				console.log("password is not confirm");
 			},3000);
 			
 		}
 	});
 }
 
-export function inputData(data){
-	const request = testRegister(data);
-	
+export function setMsg(msg) {
 	return {
-		type: 'input data',
-		payload: request
+		type: 'setMsg',
+		payload: msg
+	}
+}
+
+export function setIsPending(value){
+	return{
+		type:'setIsPending',
+		payload:value
+	}
+}
+
+export function inputData(data){
+	return (dispatch)=>{
+		dispatch(setIsPending(true));
+		testRegister(data)
+		.then(res=>{
+			dispatch(setIsPending(false));
+			dispatch(setMsg('succsse!'));
+		}).catch(err=>{
+			dispatch(setIsPending(false));
+			dispatch(setMsg('fail to testRegister!'));
+		});
 	}
 }
 
